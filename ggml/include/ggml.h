@@ -190,6 +190,7 @@
 // TODO: support for clang
 #ifdef __GNUC__
 #    define GGML_DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+#    define GGML_PACKED __attribute__((__packed__))
 #elif defined(_MSC_VER)
 #    define GGML_DEPRECATED(func, hint) __declspec(deprecated(hint)) func
 #else
@@ -317,7 +318,7 @@ extern "C" {
     GGML_NORETURN GGML_ATTRIBUTE_FORMAT(3, 4)
     GGML_API void ggml_abort(const char * file, int line, const char * fmt, ...);
 
-    enum ggml_status {
+    enum GGML_PACKED ggml_status {
         GGML_STATUS_ALLOC_FAILED = -2,
         GGML_STATUS_FAILED = -1,
         GGML_STATUS_SUCCESS = 0,
@@ -348,7 +349,7 @@ extern "C" {
     struct ggml_cgraph;
 
     // NOTE: always add types at the end of the enum to keep backward compatibility
-    enum ggml_type {
+    enum GGML_PACKED ggml_type {
         GGML_TYPE_F32     = 0,
         GGML_TYPE_F16     = 1,
         GGML_TYPE_Q4_0    = 2,
@@ -392,13 +393,13 @@ extern "C" {
     };
 
     // precision
-    enum ggml_prec {
+    enum GGML_PACKED ggml_prec {
         GGML_PREC_DEFAULT =  0, // stored as ggml_tensor.op_params, 0 by default
         GGML_PREC_F32     = 10,
     };
 
     // model file types
-    enum ggml_ftype {
+    enum GGML_PACKED ggml_ftype {
         GGML_FTYPE_UNKNOWN        = -1,
         GGML_FTYPE_ALL_F32        = 0,
         GGML_FTYPE_MOSTLY_F16     = 1,  // except 1d tensors
@@ -426,7 +427,7 @@ extern "C" {
     };
 
     // available tensor operations:
-    enum ggml_op {
+    enum GGML_PACKED ggml_op {
         GGML_OP_NONE = 0,
 
         GGML_OP_DUP,
@@ -521,7 +522,7 @@ extern "C" {
         GGML_OP_COUNT,
     };
 
-    enum ggml_unary_op {
+    enum GGML_PACKED ggml_unary_op {
         GGML_UNARY_OP_ABS,
         GGML_UNARY_OP_SGN,
         GGML_UNARY_OP_NEG,
@@ -540,13 +541,13 @@ extern "C" {
         GGML_UNARY_OP_COUNT,
     };
 
-    enum ggml_object_type {
+    enum GGML_PACKED ggml_object_type {
         GGML_OBJECT_TYPE_TENSOR,
         GGML_OBJECT_TYPE_GRAPH,
         GGML_OBJECT_TYPE_WORK_BUFFER
     };
 
-    enum ggml_log_level {
+    enum GGML_PACKED ggml_log_level {
         GGML_LOG_LEVEL_NONE  = 0,
         GGML_LOG_LEVEL_DEBUG = 1,
         GGML_LOG_LEVEL_INFO  = 2,
@@ -556,7 +557,7 @@ extern "C" {
     };
 
     // this tensor...
-    enum ggml_tensor_flag {
+    enum GGML_PACKED ggml_tensor_flag {
         GGML_TENSOR_FLAG_INPUT  =  1, // ...is an input for the GGML compute graph
         GGML_TENSOR_FLAG_OUTPUT =  2, // ...is an output for the GGML compute graph
         GGML_TENSOR_FLAG_PARAM  =  4, // ...contains trainable parameters
@@ -1702,7 +1703,7 @@ extern "C" {
             struct ggml_tensor  * b,
             int                   stride);
 
-    enum ggml_op_pool {
+    enum GGML_PACKED ggml_op_pool {
         GGML_OP_POOL_MAX,
         GGML_OP_POOL_AVG,
         GGML_OP_POOL_COUNT,
@@ -1741,7 +1742,7 @@ extern "C" {
             float                 p0,
             float                 p1);
 
-    enum ggml_scale_mode {
+    enum GGML_PACKED ggml_scale_mode {
         GGML_SCALE_MODE_NEAREST  = 0,
         GGML_SCALE_MODE_BILINEAR = 1,
     };
@@ -1791,7 +1792,7 @@ extern "C" {
             int                   max_period);
 
     // sort rows
-    enum ggml_sort_order {
+    enum GGML_PACKED ggml_sort_order {
         GGML_SORT_ORDER_ASC,
         GGML_SORT_ORDER_DESC,
     };
@@ -2160,7 +2161,7 @@ extern "C" {
     // the goal should be to create an API that other backends can use move everything to the ggml base
 
     // scheduling priorities
-    enum ggml_sched_priority {
+    enum GGML_PACKED ggml_sched_priority {
         GGML_SCHED_PRIO_NORMAL,
         GGML_SCHED_PRIO_MEDIUM,
         GGML_SCHED_PRIO_HIGH,
